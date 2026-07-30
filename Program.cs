@@ -21,6 +21,13 @@ List<decimal> balances = new List<decimal>
     30000
 };
 
+List<int> accountNumbers = new List<int>
+{
+    84578746,
+    54236663,
+    19428764
+};
+
 Console.WriteLine("Welcome. Please login...");
 Console.WriteLine("Enter your name:");
 string userName = Console.ReadLine()!;
@@ -89,11 +96,12 @@ if (int.TryParse(Console.ReadLine(), out int pinCode))
                     {
                         Console.WriteLine("Must enter numbers only...");
                     }
-
                     break;
 
                 case 4:
-                    Console.WriteLine("Account information site");
+                    Console.WriteLine($"Name: {userNames[userIndex]}");
+                    Console.WriteLine($"Account number: {accountNumbers[userIndex]}");
+                    Console.WriteLine($"Balance: {balances[userIndex]} NOK.");
                     break;
 
                 case 5:

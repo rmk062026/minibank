@@ -34,12 +34,46 @@ if (int.TryParse(Console.ReadLine(), out int pinCode))
 {
     if (userIndex != -1 && pinCode == pinCodes[userIndex])
     {
-        Console.WriteLine($"Account name: {userNames[userIndex]}");
-        Console.WriteLine($"Balance: {balances[userIndex]}");
+        Console.WriteLine("1. Check balance");
+        Console.WriteLine("2. Deposit money");
+        Console.WriteLine("3. Withdraw money");
+        Console.WriteLine("4. Account information");
+        Console.WriteLine("5. Exit program");
+        Console.WriteLine("Choose an option:");
+
+        if (int.TryParse(Console.ReadLine(), out int menuChoice))
+        {
+            switch (menuChoice)
+            {
+                case 1:
+                    Console.WriteLine("Check balance site");
+                    break;
+                case 2:
+                    Console.WriteLine("Deposit money site");
+                    break;
+                case 3:
+                    Console.WriteLine("Withdraw money site");
+                    break;
+                case 4:
+                    Console.WriteLine("Account information site");
+                    break;
+                case 5:
+                    Console.WriteLine("Closing app...");
+                    break;
+                default:
+                    Console.WriteLine("App is closing. Press a button...");
+                    Console.ReadKey();
+                    break;
+            }
+        }
+        else
+        {
+            Console.WriteLine("You must enter a number between 1 and 5.");
+        }
     }
     else
     {
-        Console.WriteLine("Account not found...");
+        Console.WriteLine("Invalid username or PIN...");
     }
 }
 else

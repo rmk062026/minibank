@@ -81,15 +81,19 @@ if (int.TryParse(Console.ReadLine(), out int pinCode))
                     Console.WriteLine("Enter amount to withdraw:");
                     if (decimal.TryParse(Console.ReadLine(), out decimal withDrawUser))
                     {
-                        if (withDrawUser <= balances[userIndex])
+                        if (withDrawUser >= 0)
+                        {
+                            Console.WriteLine("Amount must be greater then 0.");
+                        }
+                        else if (withDrawUser > balances[userIndex])
+                        {
+                            Console.WriteLine("Insufficient founds...");
+                        }
+                        else
                         {
                             balances[userIndex] -= withDrawUser;
                             Console.WriteLine("Withdraw completed.");
                             Console.WriteLine($"New balance: {balances[userIndex]} NOK.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Insufficient founds...");
                         }
                     }
                     else

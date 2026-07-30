@@ -16,9 +16,9 @@ List<int> pinCodes = new List<int>
 
 List<decimal> balances = new List<decimal>
 {
-    834532,
-    5325,
-    29342
+    10000,
+    5000,
+    30000
 };
 
 Console.WriteLine("Welcome. Please login...");
@@ -46,20 +46,60 @@ if (int.TryParse(Console.ReadLine(), out int pinCode))
             switch (menuChoice)
             {
                 case 1:
-                    Console.WriteLine("Check balance site");
+                    Console.WriteLine($"Your current balance is {balances[userIndex]} NOK.");
                     break;
+
                 case 2:
-                    Console.WriteLine("Deposit money site");
+                    Console.WriteLine("Enter deposit amount:");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal depositUser))
+                    {
+                        if (depositUser > 0)
+                        {
+                            balances[userIndex] += depositUser;
+                            Console.WriteLine("Deposit completed.");
+                            Console.WriteLine($"New balance: {balances[userIndex]}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Can't be below 0 NOK.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Must enter numbers only...");
+                    }
                     break;
-                case 3:
-                    Console.WriteLine("Withdraw money site");
+
+                case 3: // Withdraw money
+                    Console.WriteLine("Enter amount to withdraw:");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal withDrawUser))
+                    {
+                        if (withDrawUser <= balances[userIndex])
+                        {
+                            balances[userIndex] -= withDrawUser;
+                            Console.WriteLine("Withdraw completed.");
+                            Console.WriteLine($"New balance: {balances[userIndex]} NOK.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Insufficient founds...");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Must enter numbers only...");
+                    }
+
                     break;
+
                 case 4:
                     Console.WriteLine("Account information site");
                     break;
+
                 case 5:
                     Console.WriteLine("Closing app...");
                     break;
+
                 default:
                     Console.WriteLine("App is closing. Press a button...");
                     Console.ReadKey();

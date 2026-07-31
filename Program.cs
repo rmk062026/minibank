@@ -36,91 +36,95 @@ Console.WriteLine($"Hello {userName}, Enter your pincode:");
 
 // Username as int to find index
 int userIndex = userNames.IndexOf(userName);
+bool isActive = true;
 
 if (int.TryParse(Console.ReadLine(), out int pinCode))
 {
     if (userIndex != -1 && pinCode == pinCodes[userIndex])
     {
-        Console.WriteLine("1. Check balance");
-        Console.WriteLine("2. Deposit money");
-        Console.WriteLine("3. Withdraw money");
-        Console.WriteLine("4. Account information");
-        Console.WriteLine("5. Exit program");
-        Console.WriteLine("Choose an option:");
-
-        if (int.TryParse(Console.ReadLine(), out int menuChoice))
+        while (isActive)
         {
-            switch (menuChoice)
+            Console.WriteLine("1. Check balance");
+            Console.WriteLine("2. Deposit money");
+            Console.WriteLine("3. Withdraw money");
+            Console.WriteLine("4. Account information");
+            Console.WriteLine("5. Exit program");
+            Console.WriteLine("Choose an option:");
+
+            if (int.TryParse(Console.ReadLine(), out int menuChoice))
             {
-                case 1:
-                    Console.WriteLine($"Your current balance is {balances[userIndex]} NOK.");
-                    break;
+                switch (menuChoice)
+                {
+                    case 1:
+                        Console.WriteLine($"Your current balance is {balances[userIndex]} NOK.");
+                        break;
 
-                case 2:
-                    Console.WriteLine("Enter deposit amount:");
-                    if (decimal.TryParse(Console.ReadLine(), out decimal depositUser))
-                    {
-                        if (depositUser > 0)
+                    case 2:
+                        Console.WriteLine("Enter deposit amount:");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal depositUser))
                         {
-                            balances[userIndex] += depositUser;
-                            Console.WriteLine("Deposit completed.");
-                            Console.WriteLine($"New balance: {balances[userIndex]}");
+                            if (depositUser > 0)
+                            {
+                                balances[userIndex] += depositUser;
+                                Console.WriteLine("Deposit completed.");
+                                Console.WriteLine($"New balance: {balances[userIndex]}");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Can't be below 0 NOK.");
+                            }
                         }
                         else
                         {
-                            Console.WriteLine("Can't be below 0 NOK.");
+                            Console.WriteLine("Must enter numbers only...");
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Must enter numbers only...");
-                    }
-                    break;
+                        break;
 
-                case 3: // Withdraw money
-                    Console.WriteLine("Enter amount to withdraw:");
-                    if (decimal.TryParse(Console.ReadLine(), out decimal withDrawUser))
-                    {
-                        if (withDrawUser >= 0)
+                    case 3: // Withdraw money
+                        Console.WriteLine("Enter amount to withdraw:");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal withDrawUser))
                         {
-                            Console.WriteLine("Amount must be greater then 0.");
-                        }
-                        else if (withDrawUser > balances[userIndex])
-                        {
-                            Console.WriteLine("Insufficient founds...");
+                            if (withDrawUser <= 0)
+                            {
+                                Console.WriteLine("Amount must be greater than 0.");
+                            }
+                            else if (withDrawUser > balances[userIndex])
+                            {
+                                Console.WriteLine("Insufficient founds...");
+                            }
+                            else
+                            {
+                                balances[userIndex] -= withDrawUser;
+                                Console.WriteLine("Withdraw completed.");
+                                Console.WriteLine($"New balance: {balances[userIndex]} NOK.");
+                            }
                         }
                         else
                         {
-                            balances[userIndex] -= withDrawUser;
-                            Console.WriteLine("Withdraw completed.");
-                            Console.WriteLine($"New balance: {balances[userIndex]} NOK.");
+                            Console.WriteLine("Must enter numbers only...");
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Must enter numbers only...");
-                    }
-                    break;
+                        break;
 
-                case 4:
-                    Console.WriteLine($"Name: {userNames[userIndex]}");
-                    Console.WriteLine($"Account number: {accountNumbers[userIndex]}");
-                    Console.WriteLine($"Balance: {balances[userIndex]} NOK.");
-                    break;
+                    case 4:
+                        Console.WriteLine($"Name: {userNames[userIndex]}");
+                        Console.WriteLine($"Account number: {accountNumbers[userIndex]}");
+                        Console.WriteLine($"Balance: {balances[userIndex]} NOK.");
+                        break;
 
-                case 5:
-                    Console.WriteLine("Closing app...");
-                    break;
+                    case 5:
+                        Console.WriteLine("Closing app...");
+                        isActive = false;
+                        break;
 
-                default:
-                    Console.WriteLine("App is closing. Press a button...");
-                    Console.ReadKey();
-                    break;
+                    default:
+                        Console.WriteLine("You must choose a number between 1 and 5.");
+                        break;
+                }
             }
-        }
-        else
-        {
-            Console.WriteLine("You must enter a number between 1 and 5.");
+            else
+            {
+                Console.WriteLine("You must enter a number between 1 and 5.");
+            }
         }
     }
     else

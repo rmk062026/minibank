@@ -36,13 +36,14 @@ Console.WriteLine($"Hello {userName}, Enter your pincode:");
 
 // Username as int to find index
 int userIndex = userNames.IndexOf(userName);
-bool isActive = true;
+bool isBankRunning = true;
 
 if (int.TryParse(Console.ReadLine(), out int pinCode))
 {
     if (userIndex != -1 && pinCode == pinCodes[userIndex])
     {
-        while (isActive)
+        // Added while to hold the program active until option 5 is typed.
+        while (isBankRunning)
         {
             Console.WriteLine("1. Check balance");
             Console.WriteLine("2. Deposit money");
@@ -113,7 +114,7 @@ if (int.TryParse(Console.ReadLine(), out int pinCode))
 
                     case 5:
                         Console.WriteLine("Closing app...");
-                        isActive = false;
+                        isBankRunning = false;
                         break;
 
                     default:

@@ -1,4 +1,5 @@
-﻿Console.WriteLine("Mini Bank");
+﻿Console.Clear();
+Console.WriteLine("Mini Bank");
 
 List<string> userNames = new List<string>
 {
@@ -54,14 +55,16 @@ if (int.TryParse(Console.ReadLine(), out int pinCode))
 
             if (!int.TryParse(Console.ReadLine(), out int menuChoice))
             {
-                Console.WriteLine("You must enter numbers only.");
+                Console.WriteLine("You must enter numbers only. Press any key to continue...");
+                Console.ReadKey();
+                Console.Clear();
                 continue;
             }
 
             switch (menuChoice)
             {
                 case 1:
-                    Console.WriteLine($"Your current balance is {balances[userIndex]} NOK.");
+                    Console.WriteLine($"Your current balance is {balances[userIndex]} NOAK.");
                     break;
 
                 case 2:

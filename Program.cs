@@ -29,20 +29,52 @@ List<int> accountNumbers = new List<int>
     19428764
 };
 
-Console.WriteLine("Welcome. Please login...");
-Console.WriteLine("Enter your name:");
-string userName = Console.ReadLine()!;
-
-Console.WriteLine($"Hello {userName}, Enter your pincode:");
-
-// Find the index that belongs to the entered username
-int userIndex = userNames.IndexOf(userName);
-bool isBankRunning = true;
-
-if (int.TryParse(Console.ReadLine(), out int pinCode))
+List<bool> accountBan = new List<bool>
 {
-    if (userIndex != -1 && pinCode == pinCodes[userIndex])
+    false,
+    false,
+    true
+};
+
+int attemptedLogin = 0;
+bool userLoggedIn = false;
+bool isBankRunning = true;
+Console.WriteLine("Welcome. Please login...");
+
+while (!userLoggedIn)
+{
+    Console.WriteLine("Enter your account name:");
+    string userName = Console.ReadLine()!;
+
+    Console.WriteLine($"Hello {userName}, Enter your pincode:");
+    // Find the index that belongs to the entered username
+    if (!int.TryParse(Console.ReadLine(), out int pinCode))
     {
+        Console.WriteLine("PIN must contain numbers only.");
+        continue;
+    }
+    int userIndex = userNames.IndexOf(userName);
+
+    if (userIndex != -1 && pinCode != pinCodes[userIndex])
+    {
+        Console.WriteLine("Invalid username or PIN.");
+        attemptedLogin++;
+    }
+
+    if (attemptedLogin == 3)
+    {
+        accountBan[userIndex] = true;
+    }
+
+    if (accountBan[userIndex])
+    {
+        Console.WriteLine("This account is banned.");
+        break;
+    }
+
+    if (pinCode == pinCodes[userIndex])
+    {
+        userLoggedIn = true;
         // Added while to hold the program active until option 5 is typed.
         while (isBankRunning)
         {
@@ -133,10 +165,121 @@ if (int.TryParse(Console.ReadLine(), out int pinCode))
     }
     else
     {
-        Console.WriteLine("Invalid username or PIN...");
+        Console.WriteLine("Invalid username or PIN.");
     }
 }
-else
-{
-    Console.WriteLine("PIN must be a number...");
-}
+
+// if (int.TryParse(Console.ReadLine(), out int pinCode))
+// {
+//     if (userIndex != -1 && pinCode == pinCodes[userIndex] && accountBan[userIndex] == true)
+//     {
+//         Console.WriteLine("Your account is banned...");
+//     }
+//     if (userIndex != -1 && pinCode == pinCodes[userIndex])
+//     {
+// // Added while to hold the program active until option 5 is typed.
+// while (isBankRunning)
+// {
+//     Console.WriteLine("1. Check balance");
+//     Console.WriteLine("2. Deposit money");
+//     Console.WriteLine("3. Withdraw money");
+//     Console.WriteLine("4. Account information");
+//     Console.WriteLine("5. Exit program");
+//     Console.WriteLine("Choose an option:");
+
+//     if (!int.TryParse(Console.ReadLine(), out int menuChoice))
+//     {
+//         Console.WriteLine("You must enter numbers only. Press any key to continue...");
+//         Console.ReadKey();
+//         Console.Clear();
+//         continue;
+//     }
+
+//     switch (menuChoice)
+//     {
+//         case 1:
+//             Console.WriteLine($"Your current balance is {balances[userIndex]} NOAK.");
+//             break;
+
+//         case 2:
+//             Console.WriteLine("Enter deposit amount:");
+//             if (decimal.TryParse(Console.ReadLine(), out decimal depositUser))
+//             {
+//                 if (depositUser > 0)
+//                 {
+//                     balances[userIndex] += depositUser;
+//                     Console.WriteLine("Deposit completed.");
+//                     Console.WriteLine($"New balance: {balances[userIndex]}");
+//                 }
+//                 else
+//                 {
+//                     Console.WriteLine("Can't be below 0 NOK.");
+//                 }
+//             }
+//             else
+//             {
+//                 Console.WriteLine("Must enter numbers only...");
+//             }
+//             break;
+
+//         case 3: // Withdraw money
+//             Console.WriteLine("Enter amount to withdraw:");
+//             if (decimal.TryParse(Console.ReadLine(), out decimal withDrawUser))
+//             {
+//                 if (withDrawUser <= 0)
+//                 {
+//                     Console.WriteLine("Amount must be greater than 0.");
+//                 }
+//                 else if (withDrawUser > balances[userIndex])
+//                 {
+//                     Console.WriteLine("Insufficient founds...");
+//                 }
+//                 else
+//                 {
+//                     balances[userIndex] -= withDrawUser;
+//                     Console.WriteLine("Withdraw completed.");
+//                     Console.WriteLine($"New balance: {balances[userIndex]} NOK.");
+//                 }
+//             }
+//             else
+//             {
+//                 Console.WriteLine("Must enter numbers only...");
+//             }
+//             break;
+
+//         case 4:
+//             Console.WriteLine($"Name: {userNames[userIndex]}");
+//             Console.WriteLine($"Account number: {accountNumbers[userIndex]}");
+//             Console.WriteLine($"Balance: {balances[userIndex]} NOK.");
+//             break;
+
+//         case 5:
+//             Console.WriteLine("Closing app...");
+//             isBankRunning = false;
+//             break;
+
+//         default:
+//             Console.WriteLine("You must choose a number between 1 and 5.");
+//             break;
+//     }
+
+// }
+//     }
+//     else if (userIndex != -1 && pinCode == pinCodes[userIndex] && accountBan[userIndex] == true)
+//     {
+//         Console.WriteLine("Your account is banned...");
+//     }
+//     else if (userIndex != -1 && pinCode != pinCodes[userIndex])
+//     {
+//         attemptedLogin++;
+//     }
+//     else
+//     {
+//         Console.WriteLine("Invalid username or PIN...");
+
+//     }
+// }
+// else
+// {
+//     Console.WriteLine("PIN must be a number...");
+// }
